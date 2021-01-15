@@ -11,12 +11,14 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   LoginController _loginController = Get.find();
-  TextEditingController _sendController = TextEditingController();
-  FocusNode _fn = FocusNode();
+  TextEditingController _sendController = new TextEditingController();
+  ScrollController _scrollController = new ScrollController();
+  FocusNode _fn = new FocusNode();
 
   @override
   void dispose() {
     _sendController.dispose();
+    _scrollController.dispose();
     _fn.dispose();
     super.dispose();
   }
@@ -37,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Expanded(child: _streamMessageList(context)),
+          Flexible(child: _streamMessageList(context)),
           _sendMessageWidget(context),
         ],
       ),
@@ -46,7 +48,7 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _streamMessageList(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FireStoreService().getChatsMessages(),
+      stream: FireStoreService().getChatMessages(),
       builder: (context, snapshot) {
         if (snapshot.hasError) return Text('Something went wrong');
 
@@ -57,6 +59,8 @@ class _HomeViewState extends State<HomeView> {
 
         return ListView.builder(
           shrinkWrap: true,
+          reverse: true,
+          controller: _scrollController,
           itemCount: snapshot.data.docs.length,
           itemBuilder: (context, index) {
             if (_loginController.name.toString() ==
@@ -72,11 +76,39 @@ class _HomeViewState extends State<HomeView> {
                 context,
                 name: snapshot.data.docs[index].get('name'),
                 message: snapshot.data.docs[index].get('message'),
-                // isSender: true,
               );
           },
         );
       },
+    );
+  }
+
+  Widget _sendMessageWidget(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: TextField(
+        controller: _sendController,
+        focusNode: _fn,
+        decoration: InputDecoration(
+          suffixIcon: IconButton(
+            icon: Icon(Icons.send),
+            onPressed: () async {
+              await FireStoreService().sendMessages(
+                _sendController.text,
+                _loginController.name.toString(),
+              );
+
+              _sendController.text = '';
+              _fn.unfocus();
+              _scrollController.animateTo(
+                0.0,
+                duration: Duration(milliseconds: 0),
+                curve: Curves.easeOut,
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 
@@ -111,30 +143,6 @@ class _HomeViewState extends State<HomeView> {
             ),
             Text(message),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _sendMessageWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextField(
-        controller: _sendController,
-        focusNode: _fn,
-        decoration: InputDecoration(
-          suffixIcon: IconButton(
-            icon: Icon(Icons.send),
-            onPressed: () async {
-              await FireStoreService().sendMessages(
-                _sendController.text,
-                _loginController.name.toString(),
-              );
-
-              _sendController.text = '';
-              _fn.unfocus();
-            },
-          ),
         ),
       ),
     );

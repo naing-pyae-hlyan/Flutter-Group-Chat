@@ -28,10 +28,10 @@ class FireStoreService {
     }
   }
 
-  // get chat
-  getChatsMessages() {
+  // get chat message
+  getChatMessages() {
     return _groupChatCollection
-        .orderBy(ORDER_BY, descending: false)
+        .orderBy(ORDER_BY, descending: true)
         .snapshots();
   }
 }
