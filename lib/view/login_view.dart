@@ -19,8 +19,11 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Future<void> _routeMain() async {
-    _loginController.name = _editingController.text.obs;
-    Get.off(HomeView());
+    if (_editingController.text.isNotEmpty && _editingController.text != ' ') {
+      _loginController.name = _editingController.text.obs;
+
+      Get.off(HomeView());
+    }
   }
 
   @override

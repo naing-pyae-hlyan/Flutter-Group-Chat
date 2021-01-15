@@ -93,18 +93,20 @@ class _HomeViewState extends State<HomeView> {
           suffixIcon: IconButton(
             icon: Icon(Icons.send),
             onPressed: () async {
-              await FireStoreService().sendMessages(
-                _sendController.text,
-                _loginController.name.toString(),
-              );
+              if (_sendController.text.isNotEmpty) {
+                await FireStoreService().sendMessages(
+                  _sendController.text,
+                  _loginController.name.toString(),
+                );
 
-              _sendController.text = '';
-              _fn.unfocus();
-              _scrollController.animateTo(
-                0.0,
-                duration: Duration(milliseconds: 0),
-                curve: Curves.easeOut,
-              );
+                _sendController.text = '';
+                _fn.unfocus();
+                _scrollController.animateTo(
+                  0.0,
+                  duration: Duration(milliseconds: 0),
+                  curve: Curves.easeOut,
+                );
+              }
             },
           ),
         ),
