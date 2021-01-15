@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "427376492034",
+    "firebase_url": "https://flutter-group-chat-6771f-default-rtdb.firebaseio.com",
+    "project_id": "flutter-group-chat-6771f",
+    "storage_bucket": "flutter-group-chat-6771f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427376492034:android:3e9b1212d22d0974a7b11b",
+        "android_client_info": {
+          "package_name": "com.ethicaldigit.flutter_group_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427376492034-q75vndfn8ekt7g646ihmv428re89cu9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe7eb_6CSSXkjEf64VrkNmsGRT3dkqaM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427376492034-q75vndfn8ekt7g646ihmv428re89cu9k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "427376492034-s9pmbtm7dif0r539vunr1schor8no8o1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ethicaldigit.flutterGroupChat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
